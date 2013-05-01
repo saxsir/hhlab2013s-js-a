@@ -288,7 +288,7 @@ def scale_down(data, distance=pearson, rate=0.01):
 
   return loc
 
-def draw_2d(data, labels, jpeg="mds2d.jpg"):
+def draw2d(data, labels, jpeg="mds2d.jpg"):
   # とりあえず日本語も英語も共通フォント
   font = ImageFont.truetype('/Library/Fonts/Hiragino Sans GB W3.otf', 12, encoding='unic')
   img = Image.new('RGB', (2000, 2000), (255, 255, 255))

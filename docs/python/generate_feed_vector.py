@@ -9,16 +9,13 @@ argc = len(argvs)
 
 # 引数がなければ使い方を表示してプログラムを終了する。
 if (argc < 2):
-  print 'Usage: # python %s filename' % argvs[0]
+  print 'Usage: # python %s path_to_feedlist.txt' % argvs[0]
   quit()
 
 input_file_path = argvs[1]
+output_file_path = 'blogdata.txt'
 
-if (argc > 2):
-  output_file_path = argvs[2]
-else:
-  output_file_path = 'data/blogdata.origin.txt'
-
+# 日本語対応（入力ファイルの名前にjpが入ってたら日本語環境で実行する）
 if input_file_path.find('jp') >= 0:
   lang = 'ja'
 else:
