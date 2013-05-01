@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="css/style.css" media="all">
+</head>
+<body>
+  <div id="wrapper">
+    <h1>JS#A班 - 3章クラスタリング</h1>
+    <nav id="g-navi">
+      <ul>
+        <li><a href="#hcluster">階層的クラスタリング</a></li>
+        <li><a href="#dendrogram">デンドログラムを描く</a></li>
+        <li><a href="#rotate-matrix">列のクラスタリング</a></li>
+        <li><a href="#k-means">k平均法によるクラスタリング</a></li>
+        <li><a href="#draw2d">多次元尺度構成法</a></li>
+      </ul>
+    </nav>
+
+    <section id="hcluster">
+      <h2>階層的クラスタリング</h2>
+      <div>
+        <input id="read-btn" type="file" />
+        <button id="run-hcluster" disabled>クラスタリングする</button>
+      </div>
+    </section>
+
+    <section id="dendrogram">
+      <h2>デンドログラムを描く</h2>
+    </section>
+
+    <section id="rotate-matrix">
+      <h2>列のクラスタリング</h2>
+    </section>
+
+    <section id="k-means">
+      <h2>k平均法によるクラスタリング</h2>
+    </section>
+
+    <section id="draw2d">
+      <h2>多次元尺度構成法</h2>
+    </section>
+
+    <div id="main"></div>
+  </div>
+  
+  <script src="js/jquery-1.9.1.js"></script>
+  <script src="js/TabView.js"></script>
+  <script src="../lib/clusters.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    $(function () {new TabView('#g-navi');});
+  </script>
+</body>
+</html>
