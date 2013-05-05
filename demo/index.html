@@ -11,8 +11,6 @@
     <nav id="g-navi">
       <ul>
         <li><a href="#hcluster">階層的クラスタリング</a></li>
-        <li><a href="#dendrogram">デンドログラムを描く</a></li>
-        <li><a href="#rotate-matrix">列のクラスタリング</a></li>
         <li><a href="#k-means">k平均法によるクラスタリング</a></li>
         <li><a href="#draw2d">多次元尺度構成法</a></li>
       </ul>
@@ -21,17 +19,9 @@
     <section id="hcluster">
       <h2>階層的クラスタリング</h2>
       <div>
-        <input id="read-btn" type="file" />
-        <button id="run-hcluster" disabled>クラスタリングする</button>
+        <input class="read-btn" type="file" />
+        <button id="run-hcluster" class="run-btn">クラスタリングする</button>
       </div>
-    </section>
-
-    <section id="dendrogram">
-      <h2>デンドログラムを描く</h2>
-    </section>
-
-    <section id="rotate-matrix">
-      <h2>列のクラスタリング</h2>
     </section>
 
     <section id="k-means">
@@ -40,11 +30,16 @@
 
     <section id="draw2d">
       <h2>多次元尺度構成法</h2>
+      <p>
+        アイテム間の距離を2次元にプロットする（近ければ近いほど似ている）</p>
+      <div>
+        <input class="read-btn" type="file" />
+        <button id="run-draw2d" class="run-btn">描画する</button>
+      </div>
     </section>
-
-    <div id="main"></div>
+    <canvas id="main"></canvas>
   </div>
-  
+  <!-- JavaScript Files-->
   <script src="js/jquery-1.9.1.js"></script>
   <script src="js/TabView.js"></script>
   <script src="../lib/clusters.js"></script>
