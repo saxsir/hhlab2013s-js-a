@@ -22,10 +22,6 @@ $(function () {
    */ 
   $runBtn.click(function (e) {
     var id = e.target.id;
-    if($readBtn.val() === '') {
-      console.log('ファイルを読み込んでから実行して下さい');
-      return;
-    }
     switch(id) {
       case 'run-hcluster':
         console.log('Run hcluster');
@@ -34,6 +30,8 @@ $(function () {
         break;
       case 'run-draw2d':
         console.log("Run draw2d");
+        var coords = clusters.scaleDown(data);
+        clusters.draw2d(coords, blognames, 'main');
         break;
       default:
         console.log('Unknown case');

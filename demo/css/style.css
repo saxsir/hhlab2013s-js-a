@@ -54,3 +54,7 @@ h1 {
 #g-navi ul li a.active {
   background: #f2e530;
 }
+
+#main {
+  border: 1px solid #1ba68c;
+}

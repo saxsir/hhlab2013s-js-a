@@ -245,7 +245,7 @@ def scale_down(data, distance=pearson, rate=0.01):
 
   # アイテムのすべての組の実際の距離
   real_dist = [[distance(data[i], data[j]) for j in range(n)] for i in range(0, n)]
-  outer_sum = 0.0
+  #outer_sum = 0.0
 
   # 2次元上にランダムに配置するように初期化する
   loc = [[random.random(), random.random()] for i in range(n)]
@@ -275,7 +275,7 @@ def scale_down(data, distance=pearson, rate=0.01):
 
         # 誤差の合計を記録
         total_error += abs(error_term)
-    print total_error
+    #print total_error
 
     # ポイントを移動することで誤差が悪化したら終了
     if last_error and last_error < total_error: break
@@ -285,7 +285,6 @@ def scale_down(data, distance=pearson, rate=0.01):
     for k in range(n):
       loc[k][0] -= rate*grad[k][0]
       loc[k][1] -= rate*grad[k][1]
-
   return loc
 
 def draw2d(data, labels, jpeg="mds2d.jpg"):
