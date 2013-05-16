@@ -51,6 +51,38 @@ $('#run-tcluster').click(function (e) {
 });
 
 /*
+ * 
+ */
+$('#run-kcluster').click(function (e) {
+  var kclust, cNum;
+  var i, ilen;
+  var json = JSON.parse($('#parse-json').val());
+  var usernames = [],
+    data = [];
+  for (i = 0, ilen = json.length; i < ilen; i++) {
+    usernames.push(json[i].screenName);
+    data.push(json[i].tweetTime);
+  }
+  console.log('Run kcluster');
+
+  cNum = $('#cNum').val();
+  if (cNum === '') {
+    cNum = undefined;
+  } else {
+    cNum = parseInt(cNum);
+  }
+  kclust = clusters.kcluster(data, undefined, cNum);
+  console.log(kclust);
+  for (i = 0; i < kclust.length; i++) {
+    console.log('<クラスター' + i + '>');
+    for (j = 0; j < kclust[i].length; j++) {
+      console.log(usernames[kclust[i][j]]);
+    }
+  }
+});
+
+
+/*
  * アカウントのデータを解析ボタンが押されたら実行される関数
  */
 $('#parse-tweet').click(function (e) {
