@@ -72,6 +72,7 @@ $('#run-kcluster').click(function (e) {
     cNum = parseInt(cNum);
   }
   kclust = clusters.kcluster(data, undefined, cNum);
+
   //console.log(kclust);
   for (i = 0; i < kclust.length; i++) {
     console.log('<クラスター' + i + '>');
@@ -88,7 +89,6 @@ $('#run-kcluster').click(function (e) {
  */
 $('#parse-tweet').click(function (e) {
   var username = $('#tw-username').val();
-  
   var twitter = new Twitter();
   twitter.parse(username);
 
