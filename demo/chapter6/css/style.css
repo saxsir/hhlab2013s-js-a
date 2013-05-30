@@ -1,0 +1,60 @@
+/* ほぼ先学期の丸パクリ。。 */
+
+/*
+  * 27, 166, 140 -> #1ba68c
+  * 84, 191, 172 -> #54bfac
+  * 242, 237, 267 -> #f2eda7
+  * 242, 229, 48 -> #f2e530 
+  * 217, 70, 37 -> #d94625
+  */
+body {
+  line-height: 150%;
+  font-family: sans-serif;
+}
+h1,h2,h3 {
+  padding: 5px;
+  margin: 0;
+}
+h1 {
+  margin: 5px 0;
+}
+
+#wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+#wrapper section {
+  border: solid 1px #d94625;
+  padding: 10px;
+  margin: 0 0 10px 0;
+}
+
+#g-navi ul {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+#g-navi ul li {
+  display: block;
+  float:left;
+  border-style: solid;
+  border-color: #d94625;
+  border-width: 1px 1px 0 0;
+  padding: 0;
+  margin: 0;
+}
+#g-navi ul li:first-child {
+  border-width: 0.1em 0.1em 0;
+}
+#g-navi ul li a {
+  display: block;
+  padding: 0.5em;
+}
+#g-navi ul li a.active {
+  background: #f2e530;
+}
+
+#main {
+  border: 1px solid #1ba68c;
+}
