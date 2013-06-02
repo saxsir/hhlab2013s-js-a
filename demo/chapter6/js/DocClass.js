@@ -1,12 +1,11 @@
 // 6章の内容を内包するクラス
-var DocClass = function() {
-};
+var DocClass = function () {};
 
 /*
  * テキストから特徴を抽出する関数
  * ドキュメントを受け取り、ユニークな単語とそれぞれの初期値(1)をオブジェクトで返す
  */
-DocClass.prototype.getwords = function(doc) {
+DocClass.prototype.getwords = function (doc) {
   // 単語を非アルファベットの文字で分割する
   var words = doc.split(/\W/);
 
@@ -16,8 +15,7 @@ DocClass.prototype.getwords = function(doc) {
     // 元の文字列に非アルファベットが連続して入っていると中身なしのStringとして分割されるため
     if (words[i] === "") {
       delete words[i];
-    }
-    else {
+    } else {
       dict[words[i]] = 1;
     }
   }
@@ -27,7 +25,7 @@ DocClass.prototype.getwords = function(doc) {
 /*
  * トレーニングデータを流し込む
  */
-DocClass.prototype.sampletrain = function(cl) {
+DocClass.prototype.sampletrain = function (cl) {
   cl.train('Nobody owns the water', 'good');
   cl.train('the quick rabbit jumps fences', 'good');
   cl.train('buy pharmaceuticals now', 'bad');

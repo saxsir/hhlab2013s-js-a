@@ -1,5 +1,5 @@
 // 分類器クラス
-DocClass.prototype.Classifier = function(getfeatures, filename) {
+DocClass.prototype.Classifier = function (getfeatures, filename) {
   // 特徴 / カテゴリのカウント
   this.fc = {};
 
@@ -9,7 +9,7 @@ DocClass.prototype.Classifier = function(getfeatures, filename) {
 };
 
 // 特徴/カテゴリのカウントを増やす
-DocClass.prototype.Classifier.prototype.incf = function(f, cat) {
+DocClass.prototype.Classifier.prototype.incf = function (f, cat) {
   // 初めて出てくる特徴（単語）だったら初期化
   if (this.fc[f] === undefined) {
     this.fc[f] = {};
@@ -23,7 +23,7 @@ DocClass.prototype.Classifier.prototype.incf = function(f, cat) {
 };
 
 // カテゴリのカウントを増やす
-DocClass.prototype.Classifier.prototype.incc = function(cat) {
+DocClass.prototype.Classifier.prototype.incc = function (cat) {
   if (this.cc[cat] === undefined) {
     this.cc[cat] = 0;
   }
@@ -31,7 +31,7 @@ DocClass.prototype.Classifier.prototype.incc = function(cat) {
 };
 
 // あるカテゴリの中に特徴が現れた数
-DocClass.prototype.Classifier.prototype.fcount = function(f, cat) {
+DocClass.prototype.Classifier.prototype.fcount = function (f, cat) {
   if (f in this.fc && cat in this.fc[f]) {
     return parseFloat(this.fc[f][cat]);
   }
@@ -39,14 +39,14 @@ DocClass.prototype.Classifier.prototype.fcount = function(f, cat) {
 };
 
 // あるカテゴリ中のアイテムたちの数
-DocClass.prototype.Classifier.prototype.catcount = function(cat) {
+DocClass.prototype.Classifier.prototype.catcount = function (cat) {
   if (this.cc.hasOwnProperty(cat)) {
     return parseFloat(this.cc[cat]);
   }
 };
 
 // アイテムたちの総数
-DocClass.prototype.Classifier.prototype.totalcount = function() {
+DocClass.prototype.Classifier.prototype.totalcount = function () {
   var sum = 0;
   for (var key in this.cc) {
     sum += this.cc[key];
@@ -55,12 +55,12 @@ DocClass.prototype.Classifier.prototype.totalcount = function() {
 };
 
 // すべてのカテゴリたちのリスト（配列）を返す
-DocClass.prototype.Classifier.prototype.categories = function() {
+DocClass.prototype.Classifier.prototype.categories = function () {
   return Object.keys(this.cc);
 };
 
 // 学習用の関数
-DocClass.prototype.Classifier.prototype.train = function(item, cat) {
+DocClass.prototype.Classifier.prototype.train = function (item, cat) {
   var features = this.getfeatures(item);
   // このカテゴリ中の特徴たちのカウントを増やす
   for (var f in features) {
@@ -71,7 +71,7 @@ DocClass.prototype.Classifier.prototype.train = function(item, cat) {
 };
 
 // ある単語が特定のカテゴリに存在する確率を返す
-DocClass.prototype.Classifier.prototype.fprob = function(f, cat) {
+DocClass.prototype.Classifier.prototype.fprob = function (f, cat) {
   if (this.catcount(cat) === 0) {
     return 0;
   }
@@ -80,8 +80,8 @@ DocClass.prototype.Classifier.prototype.fprob = function(f, cat) {
 };
 
 // 重み付き確率
-DocClass.prototype.Classifier.prototype.weightedprob = function(f, cat, prf, weight, ap) {
-  if (weight === undefined){
+DocClass.prototype.Classifier.prototype.weightedprob = function (f, cat, prf, weight, ap) {
+  if (weight === undefined) {
     weight = 1.0;
   }
   if (ap === undefined) {
@@ -96,12 +96,13 @@ DocClass.prototype.Classifier.prototype.weightedprob = function(f, cat, prf, wei
   var basicprob = prf.call(this, f, cat);
 
   // この特徴がすべてのカテゴリ中に出現する数を数える
-  var totals = 0, cats = this.categories();
+  var totals = 0,
+    cats = this.categories();
   for (var i = 0, l = cats.length; i < l; i++) {
     totals += this.fcount(f, cats[i]);
   }
 
   // 重み付けした平均を計算
-  var bp = ((weight*ap) + (totals * basicprob)) / (weight + totals);
+  var bp = ((weight * ap) + (totals * basicprob)) / (weight + totals);
   return bp;
 };
