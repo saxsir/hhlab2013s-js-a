@@ -53,11 +53,11 @@ $('#67test').click(function(e) {
   init();
   addJsFile('js/docclass.Classifier.DB.js', 'classifier-db');
   changeSpecFile('spec/6-7Spec.js');
-  $('#67init').attr('disabled', false);
+  $('.db-init').attr('disabled', false);
 });
 
 // DBの初期化
-$('#67init').click(function(e) {
+$('.db-init').click(function(e) {
   cl.db.transaction(
     function(tx) {
       tx.executeSql('DROP TABLE IF EXISTS fc;');
@@ -68,7 +68,7 @@ $('#67init').click(function(e) {
     },
     function() {
       onsuccess('Success: initdb()');
-      $('#67init').attr('disabled', true);
+      $('.db-init').attr('disabled', true);
     });
 });
 
@@ -77,6 +77,7 @@ $('#670test').click(function(e) {
   init();
   addJsFile('js/docclass.Classifier.DB.js', 'classifier-db');
   changeSpecFile('spec/6-7Spec.plus.js');
+  $('.db-init').attr('disabled', false);
 });
 
 
