@@ -1,35 +1,182 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>
-        </title>
-        <link rel="stylesheet" href="css/style.css" media="all">
-    </head>
-    
-    <body>
-        <div id="wrapper">
-            <h1>JS#A班 - 6章ドキュメントフィルタリング</h1>
-            <nav id="g-navi">
-                <ul>
-                    <li><a href="#getwords">6.2 ドキュメントと単語</a></li>
-                </ul>
-            </nav>
-            <section id="getwords">
-                
-            </section>
-        </div>
-        <!-- JavaScript Files-->
-        <!-- 先人の努力の読み込み -->
-        <script src="../../lib/jquery/jquery-1.9.1.js"></script>
+ <head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="css/style.css" media="all">
+ </head>
+ <body>
+  <div id="wrapper">
+   <h1>JS#A班 - 6章ドキュメントフィルタリング</h1>
+   <nav id="g-navi">
+    <ul>
+     <li>
+      <a href="#63">6.3 分類器のトレーニング</a>
+     </li>
+     <li>
+      <a href="#64">6.4 確率を計算する</a>
+     </li>
+     <li>
+      <a href="#67">6.7 分類器を保存する（だけ）</a>
+     </li>
+     <li>
+      <a href="#670">6.7.0 6-4と組み合わせてみた</a>
+     </li>
+    </ul>
+   </nav>
+   <section id="63">
+    <h3>教科書のコード</h3>
+    <pre><code>
+    $python
+    >>> import docclass
+    >>> cl = docclass.classifier(docclass.getwords)
+    >>> cl.train('the quick brown fox jumps over the lazy dog', 'good')
+    >>> cl.train('make quick money in the online casino', 'bad')
+    >>> cl.fcount('quick', 'good')
+    1.0
+    >>> cl.fcount('quick', 'bad')
+    1.0
+    </code></pre>
+    <h3>jsのコード</h3>
+    <pre><code>
+    var docclass = new DocClass();
+    var cl = new docclass.Classifier(docclass.getwords);
 
-        <!-- 自作ライブラリの読み込み -->
-        <script src="../../lib/TabView.js"></script>
-        <script src="js/DocClass.js"></script>
-        <!-- メイン関数っぽいスクリプト -->
-        <script src="js/main.js"></script>
-        <script>
-            $(function() { new TabView('#g-navi'); });
-        </script>
-    </body>
+    // サンプルデータの学習（手動）
+    cl.train('the quick brown fox jumps over the lazy dog', 'good');
+    cl.train('make quick money in the online casino', 'bad');
+
+    // 確率の計算（単語が特定のカテゴリに属する確率）
+    cl.fcount('quick', 'good')); // => 1.0
+    cl.fcount('quick', 'bad')); // => 1.0
+    </code></pre>
+    <button id="63test">テスト</button>
+   </section>
+   <section id="64">
+    <h3>教科書のコード</h3>
+    <pre><code>
+    $python
+    >>> import docclass
+    >>> cl = docclass.classifier(docclass.getwords)
+    >>> docclass.sampletrain(cl)
+    >>> cl.fprob('quick', 'good')
+    0.66666666666...
+    >>> cl.weightedprob('money', 'good', cl.fprob)
+    0.25
+    >>> cl.weightedprob('money', 'good', cl.fprob)
+    0.16666666666...
+    </code></pre>
+    <h3>jsのコード</h3>
+    <pre><code>
+    var docclass = new DocClass();
+    var cl = new docclass.Classifier(docclass.getwords);
+
+    // サンプルデータの学習（自動）
+    docclass.sampletrain(cl);
+
+    // 確率の計算
+    cl.fprob('quick', 'good')); // => 0.66666666666666663
+
+    // 1回学習後の重み付き確率を計算
+    cl.weightedprob('money', 'good', cl.fprob)); // => 0.25
+
+    // サンプルデータを学習
+    docclass.sampletrain(cl);
+    
+    // 2回学習後の重み付き確率を計算する
+    cl.weightedprob('money', 'good', cl.fprob)); // => 0.16666666666666666
+    </code></pre>
+    <button id="64test">テスト</button>
+   </section>
+   <section id="67">
+    <h3>教科書のコード</h3>
+    <pre><code>
+    $python
+    >>> import docclass
+    >>> cl = docclass.fisherclassifier(docclass.getwords)
+    >>> cl.setdb('test1.db')
+    >>> docclass.sampletrain(cl)
+    >>> cl2 = docclass.naivebayes(docclass.getwords)
+    >>> cl2.classify('quick money')
+    u'bad'
+    </code></pre>
+    <h3>jsのコード</h3>
+    <pre><code>
+    var docclass = new DocClass();
+    var cl = new docclass.Classifier(docclass.getwords);
+
+    // データベース接続
+    cl.setdb('classify_training', function() {
+      // サンプルデータを学習
+      docclass.sampletrain(cl, function(){
+        console.log('Success: sampletrain()');
+      });
+    });
+    </code></pre>
+    <button id="67test">テスト</button>
+    <button id="67init" disabled>DB初期化</button>
+   </section>
+   <section id="670">
+    <h3>pythonのコード</h3>
+    <pre><code>
+    $python
+    >>> import docclass
+    >>> cl = docclass.fisherclassifier(docclass.getwords)
+    >>> cl.setdb('test1.db')
+    >>> docclass.sampletrain(cl)
+    >>> cl.fprob('quick', 'good')
+    0.66666666666666663
+    >>> cl.weightedprob('money', 'good', cl.fprob)
+    0.25
+    >>> docclass.sampletrain(cl)
+    >>> cl.weightedprob('money', 'good', cl.fprob)
+    0.166666666...
+    </code></pre>
+    <h3>jsのコード</h3>
+    <pre><code>
+    var docclass = new DocClass();
+    var cl = new docclass.Classifier(docclass.getwords);
+
+    // データベース接続
+    cl.setdb('classify_training', function() {
+      // サンプルデータを学習
+      docclass.sampletrain(cl, function() {
+        console.log('Success: sampletrain()');
+        // 確率を計算
+        cl.fprob('quick', 'good', function(res) {
+          console.log("cl.fprob('quick', 'good'): " + res);
+        });
+      // 1回学習後の重み付き確率を計算
+      cl.weightedprob('money', 'good', cl.fprob, undefined, undefined, function(res) {
+        console.log("cl.weightedprob('money', 'good', cl.fprob,): " + res);
+        // サンプルデータを学習
+        docclass.sampletrain(cl, function() {
+          console.log('Success: sampletrain()');
+          // 2回学習後の重み付き確率を計算する
+          cl.weightedprob('money', 'good', cl.fprob, undefined, undefined, function(res) {
+            console.log("cl.weightedprob('money', 'good', cl.fprob,): " + res);
+          });
+        });
+      });
+    });
+  });
+    </code></pre>
+    <button id="670test">テスト</button>
+   </section>
+   <h2>Result</h2>
+   <button id="clear">Clear</button>
+   <textarea id="result"></textarea>
+  </div>
+  <!-- JavaScript Files-->
+  <!-- 先人の努力の読み込み -->
+  <script src="../../lib/jquery/jquery-1.9.1.js"></script>
+  <!-- 自作ライブラリの読み込み -->
+  <script src="../../lib/TabView.js"></script>
+  <script src="js/DocClass.js"></script>
+  <script src="js/docclass.Classifier.js" id="classifier"></script>
+  <!-- メイン関数っぽいスクリプト -->
+  <script src="" id="spec"></script>
+  <script src="js/main.js"></script>
+  <script> $(function() { new TabView('#g-navi'); }); </script>
+ </body>
 </html>

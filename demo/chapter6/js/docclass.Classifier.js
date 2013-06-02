@@ -88,17 +88,20 @@ DocClass.prototype.Classifier.prototype.weightedprob = function(f, cat, prf, wei
     ap = 0.5;
   }
 
+  // 呼び出した関数の手前（ドットの前）のオブジェクトがthisになる。
+  // ただし，手前にドットがない場合はグローバルオブジェクトがthisになる
+  // つまり、prfを呼ぶ際のthisはグローバルオブジェクトになる。ので、applyを使う
+
   // 現在の確率を計算する
-  var basicprob = prf(f, cat);
+  var basicprob = prf.call(this, f, cat);
 
   // この特徴がすべてのカテゴリ中に出現する数を数える
   var totals = 0, cats = this.categories();
   for (var i = 0, l = cats.length; i < l; i++) {
-    totals += this.fcount(f, this.cats[i]);
+    totals += this.fcount(f, cats[i]);
   }
 
   // 重み付けした平均を計算
   var bp = ((weight*ap) + (totals * basicprob)) / (weight + totals);
   return bp;
-
 };
