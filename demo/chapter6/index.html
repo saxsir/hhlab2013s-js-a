@@ -146,20 +146,21 @@
         cl.fprob('quick', 'good', function(res) {
           console.log("cl.fprob('quick', 'good'): " + res);
         });
-      // 1回学習後の重み付き確率を計算
-      cl.weightedprob('money', 'good', cl.fprob, undefined, undefined, function(res) {
-        console.log("cl.weightedprob('money', 'good', cl.fprob,): " + res);
-        // サンプルデータを学習
-        docclass.sampletrain(cl, function() {
-          console.log('Success: sampletrain()');
-          // 2回学習後の重み付き確率を計算する
-          cl.weightedprob('money', 'good', cl.fprob, undefined, undefined, function(res) {
-            console.log("cl.weightedprob('money', 'good', cl.fprob,): " + res);
+        
+        // 1回学習後の重み付き確率を計算
+        cl.weightedprob('money', 'good', cl.fprob, undefined, undefined, function(res) {
+          console.log("cl.weightedprob('money', 'good', cl.fprob,): " + res);
+          // サンプルデータを学習
+          docclass.sampletrain(cl, function() {
+            console.log('Success: sampletrain()');
+            // 2回学習後の重み付き確率を計算する
+            cl.weightedprob('money', 'good', cl.fprob, undefined, undefined, function(res) {
+              console.log("cl.weightedprob('money', 'good', cl.fprob,): " + res);
+            });
           });
         });
       });
     });
-  });
     </code></pre>
     <button id="670test">テスト</button>
     <button class="db-init" disabled>DB初期化</button>
