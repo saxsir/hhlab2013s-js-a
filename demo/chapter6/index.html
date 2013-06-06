@@ -75,7 +75,7 @@
     docclass.sampletrain(cl);
 
     // 確率の計算
-    cl.fprob('quick', 'good')); // => 0.66666666666666663
+    cl.fprob('money', 'good')); // => 0.66666666666666663
 
     // 1回学習後の重み付き確率を計算
     cl.weightedprob('money', 'good', cl.fprob)); // => 0.25
@@ -124,7 +124,7 @@
     >>> cl = docclass.fisherclassifier(docclass.getwords)
     >>> cl.setdb('test1.db')
     >>> docclass.sampletrain(cl)
-    >>> cl.fprob('money', 'good')
+    >>> cl.fprob('quick', 'good')
     0.66666666666666663
     >>> cl.weightedprob('money', 'good', cl.fprob)
     0.25
