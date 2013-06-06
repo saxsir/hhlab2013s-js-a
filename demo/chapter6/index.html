@@ -124,7 +124,7 @@
     >>> cl = docclass.fisherclassifier(docclass.getwords)
     >>> cl.setdb('test1.db')
     >>> docclass.sampletrain(cl)
-    >>> cl.fprob('quick', 'good')
+    >>> cl.fprob('money', 'good')
     0.66666666666666663
     >>> cl.weightedprob('money', 'good', cl.fprob)
     0.25
