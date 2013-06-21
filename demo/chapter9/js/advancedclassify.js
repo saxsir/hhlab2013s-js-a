@@ -50,3 +50,45 @@ advancedclassify.loadmatch = function(f, allnum) {
   }
   return rows;
 };
+
+advancedclassify.lineartrain = function(rows) {
+  var averages = {}, counts = {};
+
+  // rowsはオブジェクトが渡されるはずなのでfor..in文で
+  for (var key in rows) {
+    var row = rows[key];
+    // このポイントのクラスを取得
+    var cl = row.match;
+
+    // averagesとcountsにキーがなかったら初期化
+    if (averages[cl] === undefined) {
+      averages[cl] = [];
+      // row.dataは配列なのでforEach文
+      row.data.forEach(function() {
+        averages[cl].push(0.0);
+      });
+   }
+    if (counts[cl] === undefined) {
+      counts[cl] = 0;
+    }
+
+    // このポイントをaveragesに追加
+    row.data.forEach(function(value, index) {
+      averages[cl][index] += parseFloat(value);
+    });
+
+    // それぞれのクラスにいくつのポイントがあるのかを記録
+    counts[cl] += 1;
+  }
+
+  // 平均を得るため合計をcountsで割る
+  for (var key in averages) {
+    var cl = key;
+    var avg = averages[cl];
+    avg.forEach(function(value, index) {
+      avg[index] /= counts[cl];
+    });
+  }
+
+  return averages;
+};
