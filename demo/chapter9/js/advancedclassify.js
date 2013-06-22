@@ -151,25 +151,72 @@ advancedclassify.matchcount = function (interest1, interest2) {
 };
 
 // データセットを読み込んで、列を変換する
-advancedclassify.loadnumerical = function (callback) {
+// 位置情報はとりあえず削除して考える
+advancedclassify.loadnumerical = function () {
   // var oldrows = this.loadmatch('matchmaker.csv');
-  var oldrows = this.loadmatch('sample.csv');
+  var oldrows = this.loadmatch('matchmaker.csv');
   var newrows = [];
   var self = this;
   oldrows.forEach(function (row) {
     var d = row.data;
-    var data = [d[0], self.yesno(d[1]), self.yesno(d[2]), d[5], self.yesno(d[6]), self.yesno(d[7]), self.matchcount(d[3], d[8]), self.milesdistance(d[4], d[9]), row.match];
+    // 位置は含めない
+    // var data = [d[0], self.yesno(d[1]), self.yesno(d[2]), d[5], self.yesno(d[6]), self.yesno(d[7]), self.matchcount(d[3], d[8]), self.milesdistance(d[4], d[9]), row.match];
+    var data =  [d[0], self.yesno(d[1]), self.yesno(d[2]), d[5], self.yesno(d[6]), self.yesno(d[7]), self.matchcount(d[3], d[8]), row.match];
     newrows.push(new self.MatchRow(data));
   });
   return newrows;
 };
 
 // ダミーの位置情報取得関数
-advancedclassify.getlocation = function() {
+advancedclassify.getlocation = function () {
   return 0.0;
 };
-advancedclassify.milesdistance = function() {
+advancedclassify.milesdistance = function () {
   return 0.0;
+};
+
+// すべてのデータを共通の尺度に変換する関数
+advancedclassify.scaledata = function (rows) {
+  var low = [], high = [];
+  rows[0].data.forEach(function() {
+    low.push(999999999.0);
+    high.push(-999999999.0);
+  });
+
+  // 最高と最低の値を探す
+  for (var key in rows) {
+    var row = rows[key];
+    var d = row.data;
+    d.forEach(function(value, i) {
+      if (value < low[i]) {
+        low[i] = value;
+      }
+      if (value > high[i]) {
+        high[i] = value;
+      }
+    });
+  }
+
+  // データを縮尺する関数
+  function scaleinput(d) {
+    var res = [];
+    low.forEach(function(value, i) {
+      res.push((d[i] - value) / (high[i] - value));
+    });
+    return res;
+  }
+
+  // すべてのデータを縮尺する
+  var newrows = [];
+  for (var key in rows) {
+    var row = rows[key];
+    var data = scaleinput(row.data);
+    data.push(row.match);
+    newrows.push(new this.MatchRow(data));
+  }
+
+  // 新しいデータと関数を返す
+  return [newrows, scaleinput];
 };
 
 
