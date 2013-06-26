@@ -219,6 +219,83 @@ advancedclassify.scaledata = function (rows) {
   return [newrows, scaleinput];
 };
 
+// カーネルトリックで用いるradial-basis関数
+// 二つのベクトルを受け取り、一つの値を返す
+advancedclassify.rbf = function(v1, v2, gamma) {
+  if (gamma === undefined) {
+    gamma = 20;
+  }
+
+  var dv = [];
+  v1.forEach(function(v, i){
+    dv.push(v - v2[i]);
+  });
+
+  var l = 0;
+  dv.forEach(function(p) {
+    l += Math.pow(p, 2);
+  });
+  return Math.pow(Math.E, (-gamma * l));
+};
+
+// ある点とクラス中のその他のすべての点の間のradial-basis関数を適用した値を計算し、それらの平均を出す
+// ベクトルの集合を平均し、その平均とベクトルAの内積 = ベクトルAと集合中のすべてのベクトルとの内積の平均
+advancedclassify.nlclassify = function(point, rows, offset, gamma) {
+  if (gamma === undefined) {
+    gamma = 10;
+  }
+
+  var sum0 = 0.0, sum1 = 0.0, count0 = 0, count1 = 0;
+  var self = this;
+  rows.forEach(function(row){
+    // matchが文字でも数値でも判定はOK
+    if (row.match == 0) {
+      sum0 += self.rbf(point, row.data, gamma);
+      count0 += 1;
+    }
+    else {
+      sum1 += self.rbf(point, row.data, gamma);
+      count1 += 1;
+    }
+  });
+
+  var y = (1.0 / count0) * sum0 - (1.0 / count1) * sum1 + offset;
+  if (y > 0) {
+    return 0;
+  }
+  else {
+    return 1;
+  }
+};
+
+// offsetの値を返す
+advancedclassify.getoffset = function(rows, gamma) {
+  var l0 = [], l1 = [];
+  rows.forEach(function(row){
+    if (row.match == 0) {
+      l0.push(row.data);
+    }
+    else {
+      l1.push(row.data);
+    }
+  });
+
+  var sum0 = 0, sum1 = 0;
+  var self = this;
+  l0.forEach(function(v2){
+    l0.forEach(function(v1){
+      sum0 += self.rbf(v1, v2, gamma);
+    });
+  });
+
+  l1.forEach(function(v2){
+    l1.forEach(function(v1){
+      sum1 += self.rbf(v1, v2, gamma);
+    });
+  });
+
+  return (1.0 / Math.pow(l1.length, 2)) * sum1 - (1.0 / Math.pow(l0.length, 2)) * sum0;
+};
 
 
 // 位置情報とるならここから下を編集
