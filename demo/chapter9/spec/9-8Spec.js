@@ -70,7 +70,7 @@ answers.forEach(function(v, i, array){
 
 $('#crossValidation').click(function() {
   var svm = new svmjs.SVM();
-  var num_of_correct_answers = svm.crossValidation(inputs, answers, { kernel: 'rbf', rbfsigma: 0.5 }, 2); // 正答数を返す
+  var num_of_correct_answers = svm.crossValidation(inputs, answers, { kernel: 'rbf', rbfsigma: 0.5 }, 10); // 正答数を返す
   alert(num_of_correct_answers); // 
 });
 

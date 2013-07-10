@@ -30,9 +30,8 @@ svmjs.SVM.prototype.crossValidation = function(data, labels, opts, k) {
   });
   */
 
-  console.log(subsets);
-
   // console.log(subsets); // debug
+
   // 1つのサブセットをテスト用にして、残りでsvmをトレーニングする
   // これをk回（各サブセット分）繰り返す
   // k回分の検証結果の配列を返す
@@ -64,13 +63,12 @@ svmjs.SVM.prototype.crossValidation = function(data, labels, opts, k) {
       Array.prototype.push.apply(training_labels, other._labels);
     });
     var sub_svm = new svmjs.SVM();
-    // sub_svm.train(training_data, training_labels, { kernel: 'rbf', rbfsigma: 0.5 });
     sub_svm.train(training_data, training_labels, opts);
-    // console.log(sub_svm.predict([ [0.65625,1,0,0.78125,0,1,0.3] ])); // -1
-    // console.log(sub_svm.predict([ [0.15625,0,0,0.375,0,0,0.2] ])); // 1
+    // console.log(sub_svm.predict([ [0.65625,1,0,0.78125,0,1,0.3] ])); // -1 debug
+    // console.log(sub_svm.predict([ [0.15625,0,0,0.375,0,0,0.2] ])); // 1 debug
 
     test_data.forEach(function(d, i){
-      //console.log(d);
+      //console.log(d); // debug
       var guess = sub_svm.predict([d]);
       console.log('guess: ' + guess);
       console.log('answer: ' + training_labels[i]);
